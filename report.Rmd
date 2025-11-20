@@ -1,0 +1,241 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(sf)
+```
+
+# Data preparation
+
+
+## Krankenhäuser
+
+```{r}
+krankenhäuser <- data.frame()
+
+
+# 2019
+year <- "2019"
+krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=15, header=F) %>% 
+  set_names(c("Krankenanstalt.Bezirk", "Systematisierte.Betten",
+             "Tatsächlich.aufgestellte.Betten", "Ärztinnen.und.Ärzte",
+             "Personen.in.nicht.ärztlichen.Gesundheitsberufen",
+             "Stationäre.Patientinnen.und.Patienten", 
+             "Durschnittliche.Belagsdauer.in.Tagen")) %>% 
+  filter(grepl("\\(\\d+.*\\)$", Krankenanstalt.Bezirk)) %>% 
+  mutate(
+    Jahr = year,
+    Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
+    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+  ) %>% 
+  filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
+  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  mutate(across(everything(), as.character)) %>% 
+  bind_rows(krankenhäuser)
+
+
+# 2020
+year <- "2020"
+krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=15, header=F) %>% 
+  set_names(c("Krankenanstalt.Bezirk", "Systematisierte.Betten",
+             "Tatsächlich.aufgestellte.Betten", "Ärztinnen.und.Ärzte",
+             "Personen.in.nicht.ärztlichen.Gesundheitsberufen",
+             "Stationäre.Patientinnen.und.Patienten", 
+             "Durschnittliche.Belagsdauer.in.Tagen")) %>% 
+  filter(grepl("\\(\\d+.*\\)$", Krankenanstalt.Bezirk)) %>% 
+  mutate(
+    Jahr = year,
+    Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
+    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+  ) %>% 
+  filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
+  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  mutate(across(everything(), as.character)) %>% 
+  bind_rows(krankenhäuser)
+
+
+# 2022
+year <- "2022"
+krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=2) %>% 
+  rename(
+    Krankenanstalt.Bezirk = Krankestalt..Gemeindebezirk.,
+    Durschnittliche.Belagsdauer.in.Tagen = Ø.Belagsdauer.in.Tagen
+  ) %>% 
+  select(-X, -X.1, -X.2, -Betten.Belags.tage) %>% 
+  filter(grepl("\\(\\d+.*\\)$", Krankenanstalt.Bezirk)) %>% 
+  mutate(
+    Jahr = year,
+    Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
+    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+  ) %>% 
+  filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
+  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  bind_rows(krankenhäuser)
+
+
+# 2023
+year <- "2023"
+krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=2) %>% 
+  rename(
+    Krankenanstalt.Bezirk = Krankestalt..Gemeindebezirk.,
+    Durschnittliche.Belagsdauer.in.Tagen = Ø.Belagsdauer.in.Tagen
+  ) %>% 
+  filter(grepl("\\(\\d+.*\\)$", Krankenanstalt.Bezirk)) %>% 
+  mutate(
+    Jahr = year,
+    Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
+    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+  ) %>% 
+  filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
+  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  bind_rows(krankenhäuser)
+
+
+# 2024
+year <- "2024"
+krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=2) %>% 
+  rename(
+    Krankenanstalt.Bezirk = Krankenanstalt..Gemeindebezirk.,
+    Durschnittliche.Belagsdauer.in.Tagen = Ø.Belagsdauer.in.Tagen
+  ) %>% 
+  filter(grepl("\\(\\d{1,2}\\.\\)$", Krankenanstalt.Bezirk)) %>% 
+  mutate(
+    Jahr = year,
+    Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
+    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]")
+  ) %>% 
+  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  bind_rows(krankenhäuser)
+
+krankenhäuser$Jahr <- as.numeric(gsub("\\D", "", krankenhäuser$Jahr))
+krankenhäuser$Bezirk <- as.numeric(gsub("\\D", "", krankenhäuser$Bezirk))
+krankenhäuser$Systematisierte.Betten <- as.numeric(gsub("\\D", "", krankenhäuser$Systematisierte.Betten))
+krankenhäuser$Tatsächlich.aufgestellte.Betten <- as.numeric(gsub("\\D", "", krankenhäuser$Tatsächlich.aufgestellte.Betten))
+krankenhäuser$Ärztinnen.und.Ärzte <- as.numeric(gsub("\\D", "", krankenhäuser$Ärztinnen.und.Ärzte))
+krankenhäuser$Personen.in.nicht.ärztlichen.Gesundheitsberufen <- as.numeric(gsub("\\D", "", krankenhäuser$Personen.in.nicht.ärztlichen.Gesundheitsberufen))
+krankenhäuser$Stationäre.Patientinnen.und.Patienten <- as.numeric(gsub("\\D", "", krankenhäuser$Stationäre.Patientinnen.und.Patienten))
+krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen <- as.numeric(gsub("\\D", "", krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen))
+krankenhäuser %>% arrange(Jahr, Bezirk)
+```
+
+
+## Choropleth geometry data
+
+```{r}
+bezirke_wien <- st_read("data/geojson/bezirke_95_geo.json") %>% 
+  filter(grepl("^Wien.*,", name)) %>% 
+  mutate(
+    Bezirk = name %>% str_extract("(?<=,).*$"),
+    Bezirk_Nr = name %>% str_extract("(?<=Wien)\\s*\\d+(?=.)") %>% as.numeric()
+  ) %>% 
+  print()
+
+```
+
+```{r Test data}
+df <- data.frame(
+  name = bezirke_wien$name,
+  val = runif(nrow(bezirke_wien), 50, 100)
+) %>% 
+  print()
+```
+
+```{r Test choropleth, fig.height=8}
+df %>% 
+  right_join(bezirke_wien, by="name") %>% 
+  print() %>% 
+  # Choropleth zeichnen
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = val), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(title = "Choropleth: Wiener Gemeindebezirke",
+         fill = "Score") +
+    theme_minimal() +
+    theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+
+
+```{r}
+
+year = 2024
+krankenhäuser %>% 
+  filter(Jahr == year) %>%
+  group_by(Jahr, Bezirk) %>% 
+  count() %>% 
+  right_join(bezirke_wien, by=c("Bezirk"="Bezirk_Nr")) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Anzahl Krankenanstalten pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+   # scale_fill_gradient(low = "white", high = "darkred") +  
+    scale_fill_gradientn(colors = c("white", "snow", "darkred"),
+                         values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+
+```{r}
+
+year = 2024
+krankenhäuser %>% 
+  filter(Jahr == year) %>%
+  group_by(Jahr, Bezirk) %>% 
+  summarise(n = sum(Ärztinnen.und.Ärzte, na.rm=T)) %>% 
+  right_join(bezirke_wien, by=c("Bezirk"="Bezirk_Nr")) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  # print() %>% 
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      fill = ""
+      title = paste("Anzahl Stationierte Ärzt:innen pro Wiener Gemeindebezirk", year),
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "steelblue4"), 
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+
+
+
+
+
+
+
