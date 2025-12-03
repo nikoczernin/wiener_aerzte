@@ -1,0 +1,35 @@
+Einkommensteuer nach Gemeindebezirken 2021 – insgesamt;;;;;;;;;;;;
+Gemeindebezirk;Veranlagungsfälle;Einkünfte;"Zu versteuerndes
+Einkommen";"Festgesetzte
+Einkommensteuer";;;;;;;;
+;;Mio. EUR;;;;;;;;;;
+Wien;129748;8098,69049229;8000,99647452;2843,85278169;;;;;;;;
+1. Innere Stadt;3271;321,76875765;317,34796577;133,24660373;;;;;;;;
+2. Leopoldstadt;7565;426,01362382;421,45415461;136,66879558000002;;;;;;;;
+3. Landstraße;8279;526,90520368;520,87756067;184,99506832;;;;;;;;
+4. Wieden;3952;287,442851;282,50778375;105,17519519;;;;;;;;
+5. Margareten;4069;210,60088517;208,14699563999997;78,3768799;;;;;;;;
+6. Mariahilf;3378;209,23760612;206,24035723;71,25022741;;;;;;;;
+7. Neubau;3948;240,06020365999998;237,14070203;82,26025717;;;;;;;;
+8. Josefstadt;3174;233,50688136000002;230,65837577000002;85,52188813;;;;;;;;
+9. Alsergrund;4894;342,2289763;338,54684927;147,31719744;;;;;;;;
+10. Favoriten;7304;347,00988825;343,36664329;122,19657639;;;;;;;;
+11. Simmering;3310;154,03178823;152,31774769;43,33312394;;;;;;;;
+12. Meidling;4723;234,26319733000003;231,52300411000002;69,41062763;;;;;;;;
+13. Hietzing;6654;527,7639827099999;520,3109991499999;197,78291999;;;;;;;;
+14. Penzing;7008;425,2984498;420,21675763999997;139,35734248;;;;;;;;
+15. Rudolfsheim-Fünfhaus;4046;182,11826688;180,03932975;50,031009829999995;;;;;;;;
+16. Ottakring;5861;307,28268130000004;303,63282545;100,81748869;;;;;;;;
+17. Hernals;4340;257,94570036;255,04271268;86,83591293;;;;;;;;
+18. Währing;6626;511,99105769;506,05977526;190,12844436;;;;;;;;
+19. Döbling;8415;723,5993476699999;713,91644502;293,10974496;;;;;;;;
+20. Brigittenau;3301;156,93292107;155,34203935;45,00622389;;;;;;;Ausfüllen mittels statcube (ABO):;
+21. Floridsdorf;7489;397,99469164;393,87234721;120,84101588;;;;;;;1;Login mit statcube ABO
+22. Donaustadt;10297;569,68756636;563,8501868999999;184,54003002000002;;;;;;;2;Navigation zu Öffentliche Finanzen, Steuern --> Steuerstatistiken --> Einkommensteuerstatistik
+23. Liesing;7844;505,00596424;498,58491627999996;175,65020783;;;;;;;3;In der Tabelle: Werte -> Fakten ->
+Quelle: Statistik Austria – Einkommensteuerstatistik.;;;;;;;;;;;;Anzahl Veranlagungsfälle
+Anmerkung: Nur Steuerfälle erfasst. Rundungsdifferenzen nicht ausgeglichen.;;;;;;;;;;;;Gesamtbetrag der Einkünfte
+;;;;;;;;;;;;Zu Versteuerndes Einkommen
+;;;;;;;;;;;;Festgesetzte Einkommensteuer
+;;;;;;;;;;;3;Filter einstellen: Klassifikationen -> Steuer- /Nullfall ->
+;;;;;;;;;;;;Steuerfall (Filter)

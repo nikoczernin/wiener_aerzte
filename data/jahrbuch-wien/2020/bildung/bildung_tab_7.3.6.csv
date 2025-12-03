@@ -1,0 +1,174 @@
+;UniversitÃƒÂ¤t;;;;;;;;;;;;;;;;;
+;UniversitÃƒÂ¤t Wien;89856;;;;;;;;;;;;;;;;
+;Technische UniversitÃƒÂ¤t Wien;27387;;;;;;;;;;;;;;;;
+;UniversitÃƒÂ¤t fÃƒÂ¼r Bodenkultur Wien;11291;;;;;;;;;;;;;;;;
+;VeterinÃƒÂ¤rmedizinische UniversitÃƒÂ¤t Wien;2422;;;;;;;;;;;;;;;;
+;WirtschaftsuniversitÃƒÂ¤t Wien;22887;;;;;;;;;;;;;;;;
+;Medizinische UniversitÃƒÂ¤t Wien;7891;;;;;;;;;;;;;;;;
+;Akademie der bildenden KÃƒÂ¼nste Wien;1484;;;;;;;;;;;;;;;;
+;UniversitÃƒÂ¤t fÃƒÂ¼r angewandte Kunst Wien;1713;;;;;;;;;;;;;;;;
+;UniversitÃƒÂ¤t fÃƒÂ¼r Musik und darstellende Kunst Wien;3116;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Studierende an ÃƒÂ¶ffentlichen UniversitÃƒÂ¤ten nach Uni (Q);;;;;;;;;;;;;;;;;;
+Berichtssemester und UniversitÃƒÂ¤t nach Studierende insgesamt pro Uni, StaatsangehÃƒÂ¶rigkeit politisch (Ebene +2) und Geschlecht;;;;;;;;;;;;;;;;;;
+ZÃƒÂ¤hlt: Studierende insgesamt pro Uni;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Studierende insgesamt pro Uni;;;Studierende insgesamt pro Uni;;;;;;;;;;;;;;;
+StaatsangehÃƒÂ¶rigkeit politisch (Ebene +2);;;Ãƒâ€“sterreich;;EU-, EFTA-Staaten;;DrittlÃƒÂ¤nder;;Ãƒâ€“sterreich;;;Ausland;;;;;;
+Geschlecht;;;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;insg;m;w;insg.;m;w;;;;
+;Berichtssemester;UniversitÃƒÂ¤t;;;;;;;;;;;;;;;;
+;Wintersemester 2018/19;UniversitÃƒÂ¤t Wien;23544;39479;6512;10568;3496;6257;63023;23544;39479;26833;10008;16825;;;;
+;;Technische UniversitÃƒÂ¤t Wien;13901;4752;2887;1747;2532;1568;18653;13901;4752;8734;5419;3315;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r Bodenkultur Wien;4391;4344;958;986;255;357;8735;4391;4344;2556;1213;1343;;;;
+;;VeterinÃƒÂ¤rmedizinische UniversitÃƒÂ¤t Wien;311;1260;168;572;52;59;1571;311;1260;851;220;631;;;;
+;;WirtschaftsuniversitÃƒÂ¤t Wien;8780;7810;2313;1947;896;1141;16590;8780;7810;6297;3209;3088;;;;
+;;Medizinische UniversitÃƒÂ¤t Wien;2482;2755;823;911;410;510;5237;2482;2755;2654;1233;1421;;;;
+;;Akademie der bildenden KÃƒÂ¼nste Wien;252;504;170;328;79;151;756;252;504;728;249;479;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r angewandte Kunst Wien;362;644;170;292;79;166;1006;362;644;707;249;458;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r Musik und darstellende Kunst Wien;795;898;390;460;215;358;1693;795;898;1423;605;818;;;;
+;;;;;;;;;;;;;;;;;;
+Symbol;Beschreibung;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Berichtssemester;Ab dem Wintersemester 2016/17 erfolgt die zÃƒÂ¤hltechnische Abbildung der 
+Studierenden auf Basis des VerteilungsschlÃƒÂ¼ssels gemÃƒÂ¤ÃƒÅ¸ Ã‚Â§ 9 Abs. 2 UniStEV 2004.
+;;;;;;;;;;;;;;;;;
+DrittlÃƒÂ¤nder;Bis 1991 einschlieÃƒÅ¸lich Slowenien, Estland, Lettland und Litauen.;;;;;;;;;;;;;;;;;
+EU-, EFTA-Staaten;Bis 1991 ohne Slowenien, Estland, Lettland und Litauen.;;;;;;;;;;;;;;;;;
+Q;STATcube Ã¢â‚¬â€œ Statistische Datenbank von STATISTIK AUSTRIA;;;;;;;;;;;;;;;;;
+Studierende an ÃƒÂ¶ffentlichen UniversitÃƒÂ¤ten nach Uni;.) Gegenstand der Statistik
+
+Studierende an ÃƒÂ¶ffentlichen UniversitÃƒÂ¤ten ab dem Wintersemester 2003/04.
+ 
+.) Rechtsgrundlagen
+
+Bildungsdokumentationsgesetz; Bundesstatistikgesetz 2000; 
+Bildungsdokumentationsverordnung UniversitÃƒÂ¤ten
+
+.) Aktualisierung, PeriodizitÃƒÂ¤t
+
+Die Daten werden semesterweise eingelagert. Neue Wintersemesterdaten stehen jeweils 
+bis spÃƒÂ¤testens Ende August zur VerfÃƒÂ¼gung, neue Sommersemesterdaten bis 
+spÃƒÂ¤testens Ende MÃƒÂ¤rz des Folgejahres.
+
+.) Bearbeitungsnachweis
+
+Direktion BevÃƒÂ¶lkerung - Wissenschaft, Technologie, Bildung 
+MMag. Guido Sommer-Binder     Tel.: (01) 711 28 - 7349 
+E-Mail: guido.sommer-binder@statistik.gv.at
+
+
+Weitere Metadaten: http://www.statistik.at/web_de/statistiken/bildung_und_kultur/formales_bildungswesen/bildungsabschluesse/index.html
+;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Ã‚Â© Copyright Statistics Austria;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;Ãƒâ€“sterreich;;;Ausland;;;;;;;;;;;
+;;;insg.;insg;m;w;insg.;m;w;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;Ãƒâ€“ffentliche UniversitÃƒÂ¤ten;168047;117264;54818;62446;50783;22405;28378;;;;;;;;;
+;;UniversitÃƒÂ¤t Wien;89856;63023;23544;39479;26833;10008;16825;;;;;;;;;
+;;Technische UniversitÃƒÂ¤t Wien;27387;18653;13901;4752;8734;5419;3315;;;;;;;;;
+;;WirtschaftsuniversitÃƒÂ¤t Wien;22887;16590;8780;7810;6297;3209;3088;;;;;;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r Bodenkultur Wien;11291;8735;4391;4344;2556;1213;1343;;;;;;;;;
+;;Medizinische UniversitÃƒÂ¤t Wien;7891;5237;2482;2755;2654;1233;1421;;;;;;;;;
+;;VeterinÃƒÂ¤rmedizinische UniversitÃƒÂ¤t Wien;2422;1571;311;1260;851;220;631;;;;;;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r Musik und darstellende Kunst Wien;3116;1693;795;898;1423;605;818;;;;;;;;;
+;;UniversitÃƒÂ¤t fÃƒÂ¼r angewandte Kunst Wien;1713;1006;362;644;707;249;458;;;;;;;;;
+;;Akademie der bildenden KÃƒÂ¼nste Wien;1484;756;252;504;728;249;479;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;PrivatuniversitÃƒÂ¤ten;6456;3433;1154;2279;3023;1131;1892;;;;;;;;;
+;;Sigmund Freud PrivatuniversitÃƒÂ¤t;4271;2762;821;1941;1509;469;1040;;;;;;;;;
+;;Musik und Kunst PrivatuniversitÃƒÂ¤t der Stadt Wien (vormals "Konservatorium");865;325;156;169;540;236;304;;;;;;;;;
+;;MODUL University Vienna PrivatuniversitÃƒÂ¤t;657;171;82;89;486;196;290;;;;;;;;;
+;;Webster Vienna Private University;516;74;30;44;442;205;237;;;;;;;;;
+;;JML Jam Music Lab Private University for Jazz and Popular Music Vienna;147;101;65;36;46;25;21;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;PÃƒÂ¤dagogische Hochochschulen;8998,04;8256,72;2307,015;5949,705;741,32;169,819;571,501;;;;;;;;;
+;;PÃƒÂ¤d. HS Wien;5111,248;4656,06;1457,67;3198,39;455,188;100,143;355,045;;;;;;;;;
+;;Priv. PH d. ErzdiÃƒÂ¶. Wien;3175,792;2938,66;563,345;2375,315;237,132;51,676;185,456;;;;;;;;;
+;;HS Agrar-UmweltpÃƒÂ¤d. Wien;711;662;286;376;49;18;31;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;Fachhochschulen;15517;12682;6936;5746;2835;1508;1327;;;;;;;;;
+;;Fachhochschule Campus Wien;6192;6051;2653;3398;141;54;87;;;;;;;;;
+;;Fachhochschule Technikum Wien;4056;3843;3141;702;213;162;51;;;;;;;;;
+;;Fachhochschul-StudiengÃƒÂ¤nge der Wiener Wirtschaft;2853;2778;1144;1634;75;31;44;;;;;;;;;
+;;Fachhochschule des bfi Wien;2003;1947;997;950;56;29;27;;;;;;;;;
+;;Lauder Business School;373;140;63;77;233;130;103;;;;;;;;;
+;;Bundesministerium fÃƒÂ¼r Landesverteidigung und Sport;40;40;40;0;0;0;0;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Studien an PÃƒÂ¤dagogischen Hochschulen (Q);;;;;;;;;;;;;;;;;;
+Berichtssemester und Hochschule nach Werte, StaatsangehÃƒÂ¶rigkeit politisch (Ebene +2) und Geschlecht nach Bundesland;;;;;;;;;;;;;;;;;;
+ZÃƒÂ¤hlt: Belegte Studien Lehramt, Belegte Studien Lehrgang;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Filter:;;;;;;;;;;;;;;;;;;
+Bundesland;Wien gesamt;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+Werte;;;Belegte Studien Lehramt;;;;;;Belegte Studien Lehrgang;;;;;;;;;
+StaatsangehÃƒÂ¶rigkeit politisch (Ebene +2);;;Ãƒâ€“sterreich;;EU-, EFTA-Staaten;;DrittlÃƒÂ¤nder;;Ãƒâ€“sterreich;;EU-, EFTA-Staaten;;DrittlÃƒÂ¤nder;;Ãƒâ€“sterreich;;Ausland;
+Geschlecht;;;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;mÃƒÂ¤nnlich;weiblich;m;w;m;w
+;Berichtssemester;Hochschule;;;;;;;;;;;;;;;;
+;Wintersemester 2018/19;PÃƒÂ¤d. HS Wien;738,67;1567,39;43,892;123,662;7,251;44,383;719;1631;36;124;13;63;1457,67;3198,39;100,143;355,045
+;;Priv. PH d. ErzdiÃƒÂ¶. Wien;404,345;1617,315;27,922;106,874;12,754;39,582;159;758;10;29;1;10;563,345;2375,315;51,676;185,456
+;;Priv. Stdg. LA Islam. Rel;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+;;Priv. Stdg. LA JÃƒÂ¼d. Rel;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+;;HS Agrar-UmweltpÃƒÂ¤d. Wien;166;245;15;23;0;2;120;131;3;6;0;0;286;376;18;31
+;;;1309;3430;87;254;20;86;998;2520;49;159;14;73;2307;5950;170;572
+Symbol;Beschreibung;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+DrittlÃƒÂ¤nder;Bis 1991 einschlieÃƒÅ¸lich Slowenien, Estland, Lettland und Litauen.;;;;;;;;;;;;;;;;;
+EU-, EFTA-Staaten;Bis 1991 ohne Slowenien, Estland, Lettland und Litauen.;;;;;;;;;;;;;;;;;
+Priv. Stdg. LA Islam. Rel;Der Private Studiengang fÃƒÂ¼r das Lehramt fÃƒÂ¼r Islamische Religion ist ab dem Wintersemester 2016/17 in die Private PÃƒÂ¤dagogische Hochschule - Hochschulstiftung ErzdiÃƒÂ¶zese Wien integriert.;;;;;;;;;;;;;;;;;
+Priv. Stdg. LA JÃƒÂ¼d. Rel;Der private Studiengang fÃƒÂ¼r das Lehramt fÃƒÂ¼r jÃƒÂ¼dische Religion wird mit Sommersemester 2019 auslaufen. Seit dem Studienjahr 2016/17 werden keine Studiendaten des Studiengangs Lehramt fÃƒÂ¼r jÃƒÂ¼dische Religion mehr an Statistik Austria gemeldet.;;;;;;;;;;;;;;;;;
+Q;STATcube Ã¢â‚¬â€œ Statistische Datenbank von STATISTIK AUSTRIA;;;;;;;;;;;;;;;;;
+Studien an PÃƒÂ¤dagogischen Hochschulen;.) Gegenstand der Statistik
+
+Weitere Metadaten: http://www.statistik.at/web_de/statistiken/bildung_und_kultur/formales_bildungswesen/universitaeten_studium/index.html
+An PÃƒÂ¤dagogischen Hochschulen belegte Lehramtsstudien und LehrgÃƒÂ¤nge ab dem 
+Wintersemester 2007/08.
+
+.) Rechtsgrundlagen
+Bildungsdokumentationsgesetz, Bundesstatistikgesetz 2000, Hochschulgesetz 2005, 
+Hochschul-Studienevidenzverordnung.
+ 
+.) Aktualisierung, PeriodizitÃƒÂ¤t
+Die Daten werden semesterweise eingelagert. Neue Wintersemesterdaten stehen 
+jeweils bis spÃƒÂ¤testens Ende August zur VerfÃƒÂ¼gung, neue Sommersemesterdaten bis 
+spÃƒÂ¤testens Ende Mai des Folgejahres.
+[21.05.2019]
+
+.) Bearbeitungsnachweis
+Direktion BevÃƒÂ¶lkerung - Wissenschaft, Technologie, Bildung 
+MMag. Guido Sommer-Binder     Tel.: (01) 711 28 - 7349 
+E-Mail: guido.sommer-binder@statistik.gv.at
+
+;;;;;;;;;;;;;;;;;
+Ã‚Â© Copyright Statistics Austria;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;Ãƒâ€“sterreich;;;Ausland;;;;;;;;;;
+;;;;;m;w;;m;w;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;PÃƒÂ¤d. HS Wien;5111,248;4656,06;1457,67;3198,39;455,188;100,143;355,045;;;;;;;;;
+;;Priv. PH d. ErzdiÃƒÂ¶. Wien;3175,792;2938,66;563,345;2375,315;237,132;51,676;185,456;;;;;;;;;
+;;HS Agrar-UmweltpÃƒÂ¤d. Wien;711;662;286;376;49;18;31;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;Ãƒâ€“st;;;Ausland;;;;;;;;;;
+;;;;;m;w;;m;w;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;Zusammen;6456;3433;1154;2279;3023;1131;1892;;;;;;;;;
+;;Sigmund Freud PrivatuniversitÃƒÂ¤t;4271;2762;821;1941;1509;469;1040;;;;;;;;;
+;;Musik und Kunst PrivatuniversitÃƒÂ¤t der Stadt Wien (vormals "Konservatorium");865;325;156;169;540;236;304;;;;;;;;;
+;;MODUL University Vienna PrivatuniversitÃƒÂ¤t;657;171;82;89;486;196;290;;;;;;;;;
+;;Webster Vienna Private University;516;74;30;44;442;205;237;;;;;;;;;
+;;JML Jam Music Lab Private University for Jazz and Popular Music Vienna;147;101;65;36;46;25;21;;;;;;;;;

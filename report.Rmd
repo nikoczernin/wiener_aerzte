@@ -1,25 +1,77 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Visual Data Science - Profile & Wrangle"
+author: "Nikolaus Czernin"
+output:
+  pdf_document: default
+  html_notebook: default
+bibliography: references.bib
+reference-section-title: "References"
 ---
 
 
-```{r}
+```{r Packages, include=F}
+suppressPackageStartupMessages({
+
 library(tidyverse)
+library(janitor)
 library(sf)
+library(scales)
+
+})
+
+knitr::opts_chunk$set(
+  message = FALSE, 
+  # echo = FALSE,
+  warning = FALSE 
+  )
+
 ```
 
 # Data preparation
+For this project we mainly used the data contained in the data yearbooks by Statistik Austria (2019-2024) [@jahrbuch]. They come in ZIP-files, containing folders for different data domains (education, health, immigration, etc.). 
+
+## Population data
+The `bevölkerung` population data (Statistik Austria, 2024) [@jahrbuch], `bevoelkerung/tab_5.1.2_bevoelkerungsstandund-veraenderung_.csv`,  is a single dataset that encompasses the population data per district in Vienna the early 2000s until 2024. The original file is a CSV that includes a lot of informative meta data in the same sheet, above and below the actual data table, which we prune upon loading. The variable names are renamed to enable intuitive data transformations using the dplyr library. The original data saved each year as a column, which we pivoted to create one long dataset with one district and one year per row. 
+
+```{r include=F}
+bevölkerung <- data.frame()
+
+# alle Jahre
+year <- "2024"
+bevölkerung <- paste0("data/jahrbuch-wien/", year, "/bevoelkerung/") %>% 
+  list.files(pattern="tab_5.1.2", full.names = T) %>% 
+  read.delim( sep=";", skip=2, header=T) %>% 
+  tail(-1) %>% 
+  head(-1) %>% 
+  rename("Bezirk"="X") %>% 
+   mutate(across(everything(), as.character)) %>% 
+  pivot_longer(-Bezirk, names_to = "Jahr", values_to = "Bevölkerung") %>%
+  mutate(
+    Bezirk_Nr = str_extract(Bezirk, "\\d+(?=.)") %>% as.integer(),
+    Bezirk = str_remove(Bezirk, "^\\d+\\.\\s*"),
+    Jahr = str_extract(Jahr, "(?<=X)\\d{4}") %>% as.integer(),
+    Bevölkerung = str_extract(Bevölkerung, "^\\d+") %>% as.integer()
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, everything()) %>% 
+  ungroup() %>% 
+  print()
+
+# knitr::knit_exit()
+
+```
 
 
-## Krankenhäuser
 
-```{r}
+## Hospitals
+The `krankenhäuser` hospital data (Statistik Austria, 2019-2024) [@jahrbuch], `gesundheit/gesundheit_tab_6.1.2.csv`, while coming fmro the same source, only ever contains the data for the year the data set was published, so in order to get timeline data for multiple years, we had to download and wrangle each year's data collection, laod and transform them individually and join them. This was challenging because it was no matter of copying a pasting the code, because the datasets were formatted differently over the years. 
+Generally, wrangling steps included, again, omitting any title and metadata rows above and below the actual data table, changing the variables' names to enable intuitive transformations, filtering out summary rows (e.g. total over all districts), formatting the numeric character columns (replacing commas with dots), and, finally, comining each year's loaded data via `bind_rows()`. 
+
+```{r include=F}
 krankenhäuser <- data.frame()
 
 
 # 2019
-year <- "2019"
+year <- 2019
 krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
   list.files(pattern="tab_6.1.2", full.names = T) %>% 
   read.delim( sep=";", skip=15, header=F) %>% 
@@ -32,16 +84,17 @@ krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>%
   mutate(
     Jahr = year,
     Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
-    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+    Bezirk_Nr = Krankenanstalt.Bezirk %>% 
+      str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
   ) %>% 
   filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
-  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
-  mutate(across(everything(), as.character)) %>% 
+  select(Jahr, Bezirk_Nr, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  mutate(across(-Jahr, as.character)) %>%
   bind_rows(krankenhäuser)
 
 
 # 2020
-year <- "2020"
+year <- 2020
 krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
   list.files(pattern="tab_6.1.2", full.names = T) %>% 
   read.delim( sep=";", skip=15, header=F) %>% 
@@ -54,16 +107,16 @@ krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>%
   mutate(
     Jahr = year,
     Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
-    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+    Bezirk_Nr = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
   ) %>% 
   filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
-  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
-  mutate(across(everything(), as.character)) %>% 
+  select(Jahr, Bezirk_Nr, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  mutate(across(-Jahr, as.character)) %>%
   bind_rows(krankenhäuser)
 
 
 # 2022
-year <- "2022"
+year <- 2022
 krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
   list.files(pattern="tab_6.1.2", full.names = T) %>% 
   read.delim( sep=";", skip=2) %>% 
@@ -76,15 +129,16 @@ krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>%
   mutate(
     Jahr = year,
     Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
-    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+    Bezirk_Nr = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% 
+      str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
   ) %>% 
   filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
-  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  select(Jahr, Bezirk_Nr, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
   bind_rows(krankenhäuser)
 
 
 # 2023
-year <- "2023"
+year <- 2023
 krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
   list.files(pattern="tab_6.1.2", full.names = T) %>% 
   read.delim( sep=";", skip=2) %>% 
@@ -96,15 +150,15 @@ krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>%
   mutate(
     Jahr = year,
     Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
-    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
+    Bezirk_Nr = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]") %>% str_remove_all("\\s\\d+")
   ) %>% 
   filter(!Krankenanstalt %in% c("Wien", "Pflegewohnhäuser")) %>% 
-  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  select(Jahr, Bezirk_Nr, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
   bind_rows(krankenhäuser)
 
 
 # 2024
-year <- "2024"
+year <- 2024
 krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
   list.files(pattern="tab_6.1.2", full.names = T) %>% 
   read.delim( sep=";", skip=2) %>% 
@@ -116,74 +170,227 @@ krankenhäuser <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>%
   mutate(
     Jahr = year,
     Krankenanstalt = Krankenanstalt.Bezirk %>% str_remove(".\\(.*$"),
-    Bezirk = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]")
+    Bezirk_Nr = Krankenanstalt.Bezirk %>% str_extract("\\(.*\\)") %>% str_remove_all("[:punct:]")
   ) %>% 
-  select(Jahr, Bezirk, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
+  select(Jahr, Bezirk_Nr, Krankenanstalt, everything(), -Krankenanstalt.Bezirk) %>% 
   bind_rows(krankenhäuser)
 
 krankenhäuser$Jahr <- as.numeric(gsub("\\D", "", krankenhäuser$Jahr))
-krankenhäuser$Bezirk <- as.numeric(gsub("\\D", "", krankenhäuser$Bezirk))
+krankenhäuser$Bezirk_Nr <- as.numeric(gsub("\\D", "", krankenhäuser$Bezirk_Nr))
 krankenhäuser$Systematisierte.Betten <- as.numeric(gsub("\\D", "", krankenhäuser$Systematisierte.Betten))
 krankenhäuser$Tatsächlich.aufgestellte.Betten <- as.numeric(gsub("\\D", "", krankenhäuser$Tatsächlich.aufgestellte.Betten))
 krankenhäuser$Ärztinnen.und.Ärzte <- as.numeric(gsub("\\D", "", krankenhäuser$Ärztinnen.und.Ärzte))
 krankenhäuser$Personen.in.nicht.ärztlichen.Gesundheitsberufen <- as.numeric(gsub("\\D", "", krankenhäuser$Personen.in.nicht.ärztlichen.Gesundheitsberufen))
 krankenhäuser$Stationäre.Patientinnen.und.Patienten <- as.numeric(gsub("\\D", "", krankenhäuser$Stationäre.Patientinnen.und.Patienten))
 krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen <- as.numeric(gsub("\\D", "", krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen))
-krankenhäuser %>% arrange(Jahr, Bezirk)
+krankenhäuser %>% arrange(Jahr, Bezirk_Nr)
+```
+
+## Doctors
+The `ärztinnen` data (Statistik Austria, 2019-2024) [@jahrbuch], `gesundheit/gesundheit_tab_6.1.4.csv`,  which contains the counts of private practice doctors per district, was also loaded via one data set per year and included the same wrangling steps as the `krankenhäuser` data. 
+
+```{r include=F}
+ärztinnen <- data.frame()
+
+# 2019
+year <- 2019
+ärztinnen <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.4", full.names = T) %>% 
+  read.delim( sep=";", skip=0) %>% 
+  set_names(c(
+    "Bezirk", "FachärztInnen", "Innere Medizin", "Frauen- heilkunde",
+    "Chirurgie", "Orthopädie", "Haut- und Geschlechtskrankheiten",
+    "Allgemein- mediziner- Innen", "Zahn- ärztInnen", "Öffentliche Apotheken"
+  )) %>% 
+  tail(-8) %>% 
+  head(-1) %>% 
+  mutate(across(-Bezirk, as.integer)) %>% 
+  mutate(
+    Bezirk_Nr = str_extract(Bezirk, "\\d+(?=.)") %>% as.integer(),
+    Bezirk = str_remove(Bezirk, "^\\d+\\.\\s*"),
+    Jahr = year %>% as.integer()
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, Jahr, everything()) %>% 
+  remove_rownames() %>% 
+  rename_with(~ str_replace_all(.x, "[\\-\\.[:space:]]+", ".")) %>% 
+  bind_rows(ärztinnen)
+
+
+# 2020
+year <- 2020
+ärztinnen <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.4", full.names = T) %>% 
+  read.delim( sep=";", skip=0) %>% 
+  fill(everything(), .direction = "down") %>% 
+  row_to_names(7) %>% 
+  set_names(c(
+    "Bezirk", "FachärztInnen", "Innere Medizin", "Frauen- heilkunde",
+    "Chirurgie", "Orthopädie", "Haut- und Geschlechtskrankheiten",
+    "Allgemein- mediziner- Innen", "Zahn- ärztInnen", "Öffentliche Apotheken"
+  )) %>% 
+  mutate(across(-Bezirk, ~ str_remove_all(.x, "\\D") %>% as.integer())) %>%
+  tail(-1) %>% 
+  head(-2) %>% 
+  mutate(
+    Bezirk_Nr = str_extract(Bezirk, "\\d+(?=.)") %>% as.integer(),
+    Bezirk = str_remove(Bezirk, "^\\d+\\.\\s*") %>% str_replace("ÃƒÅ¸", "ß"),
+    Jahr = year,
+    across(-Bezirk, as.integer)
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, Jahr, everything()) %>% 
+  remove_rownames() %>% 
+  rename_with(~ str_replace_all(.x, "[\\-\\.[:space:]]+", ".")) %>% 
+  bind_rows(ärztinnen)
+
+
+# 2022
+year <- 2022
+ärztinnen <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.4", full.names = T) %>% 
+  read.delim( sep=";", skip=0) %>% 
+  mutate(across(everything(), ~ na_if(.x, ""))) %>% 
+  fill(everything(), .direction = "down") %>% 
+  row_to_names(3) %>% 
+  tail(-1) %>% 
+  head(-2) %>% 
+  mutate(
+    Bezirk_Nr = str_extract(Gemeindebezirk, "\\d+(?=,)") %>% as.integer(),
+    Bezirk = str_remove(Gemeindebezirk, "^\\d+\\,\\s*"),
+    Jahr = year,
+    across(-Bezirk, as.integer)
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, Jahr, everything(), -Gemeindebezirk) %>% 
+  remove_rownames() %>% 
+  rename_with(~ str_replace_all(.x, "[\\-\\.[:space:]]+", ".")) %>% 
+  bind_rows(ärztinnen)
+
+
+
+# 2023
+year <- 2023
+ärztinnen <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.4", full.names = T) %>% 
+  read.delim( sep=";", skip=0) %>% 
+  mutate(across(everything(), ~ na_if(.x, ""))) %>% 
+  fill(everything(), .direction = "down") %>% 
+  row_to_names(3) %>% 
+  tail(-1) %>% 
+  head(-2) %>% 
+  mutate(
+    Bezirk_Nr = str_extract(Gemeindebezirk, "\\d+(?=.)") %>% as.integer(),
+    Bezirk = str_remove(Gemeindebezirk, "^\\d+\\.\\s*"),
+    Jahr = year,
+    across(-Bezirk, as.integer)
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, Jahr, everything(), -Gemeindebezirk) %>% 
+  remove_rownames() %>% 
+  rename_with(~ str_replace_all(.x, "[\\-\\.[:space:]]+", ".")) %>% 
+  bind_rows(ärztinnen)
+
+# 2024
+year <- 2024
+ärztinnen <- paste0("data/jahrbuch-wien/", year, "/gesundheit/") %>% 
+  list.files(pattern="tab_6.1.4", full.names = T) %>% 
+  read.delim( sep=";", skip=0) %>% 
+  mutate(across(everything(), ~ na_if(.x, ""))) %>% 
+  fill(everything(), .direction = "down") %>% 
+  row_to_names(3) %>% 
+  tail(-1) %>% 
+  head(-2) %>% 
+  mutate(
+    Bezirk_Nr = str_extract(Gemeindebezirk, "\\d+(?=.)") %>% as.integer(),
+    Bezirk = str_remove(Gemeindebezirk, "^\\d+\\.\\s*"),
+    Jahr = year,
+    across(-Bezirk, as.integer)
+  ) %>% 
+  select(Bezirk, Bezirk_Nr, Jahr, everything(), -Gemeindebezirk) %>% 
+  remove_rownames() %>% 
+  rename_with(~ str_replace_all(.x, "[\\-\\.[:space:]]+", ".")) %>% 
+  bind_rows(ärztinnen)
+
+ärztinnen 
+
 ```
 
 
-## Choropleth geometry data
 
-```{r}
+
+
+## Geospatial data
+To create choropleths with the data listed above for the Viennese districts, 
+we used a simplified, non-government adaption of public geospatial data by Perlot (2011) [@geodata]. 
+This dataset, `geodata`, was intuitive to use and required only minor transformations to create pretty district name displays. 
+
+```{r GeoData, include=F}
 bezirke_wien <- st_read("data/geojson/bezirke_95_geo.json") %>% 
   filter(grepl("^Wien.*,", name)) %>% 
   mutate(
     Bezirk = name %>% str_extract("(?<=,).*$"),
-    Bezirk_Nr = name %>% str_extract("(?<=Wien)\\s*\\d+(?=.)") %>% as.numeric()
+    Bezirk_Nr = name %>% str_extract("(?<=Wien)\\s*\\d+(?=.)") %>% as.numeric(),
+    Bezirk_Nr_Name=paste0("(", sprintf("%02d", Bezirk_Nr), ") ", Bezirk)
   ) %>% 
   print()
 
 ```
 
-```{r Test data}
-df <- data.frame(
-  name = bezirke_wien$name,
-  val = runif(nrow(bezirke_wien), 50, 100)
-) %>% 
-  print()
-```
 
-```{r Test choropleth, fig.height=8}
-df %>% 
-  right_join(bezirke_wien, by="name") %>% 
-  print() %>% 
-  # Choropleth zeichnen
-  ggplot(aes(geometry=geometry)) +
-    geom_sf(aes(fill = val), color = "white") +
-    scale_fill_viridis_c(option = "plasma") +
-    labs(title = "Choropleth: Wiener Gemeindebezirke",
-         fill = "Score") +
+
+
+# Exploratory Analysis
+
+```{r, fig.width=10, fig.height=12, include=FALSE}
+bevölkerung %>% 
+  filter(Jahr > 2019) %>% 
+  left_join(bezirke_wien) %>%
+  ggplot(aes(x=Jahr, y=Bevölkerung, fill=Bevölkerung)) +
+    geom_bar(stat="identity") +
+    # geom_line() +
+    # scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = "Entwicklung der Bevölkerung pro Wiener Gemeindebezirk von 2020 bis 2024",
+      color = ""
+         ) +
     theme_minimal() +
+  facet_wrap(~Bezirk_Nr_Name, strip.position = "bottom") +
+    scale_y_continuous(labels=label_comma()) +
+    scale_fill_continuous(labels=label_comma()) +
     theme(
-      axis.text = element_blank(),
+      axis.title = element_blank(),
+      axis.text.x = element_blank(),
       panel.grid = element_blank(),
-      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
-      )
+      strip.placement = "outside",
+      # legend.position = "bottom",
+      strip.background = element_blank()
+
+    )
 
 ```
 
 
+# Insights
 
-```{r}
+## Insight 1: Hospitals & doctors
+As a first step in the exploratory analysis, lets take a look at the 
+absolute numbers of available hospitals and doctors per district. 
+
+First, we group the data points in the `krankenhäuser` data by the year and district to 
+count the number of hospitals per year and district. 
+By joining that with the `geodata`, we can create 
+choropleths, effectively drawing the polygons that represent the simplified 
+map shapes of the district, where each polygon's fill color darkness is mapped 
+to the number of hospitals in that district. 
+
+
+```{r Krankenhäuser pro Bezirk, fig.width=5}
 
 year = 2024
 krankenhäuser %>% 
   filter(Jahr == year) %>%
-  group_by(Jahr, Bezirk) %>% 
+  group_by(Jahr, Bezirk_Nr) %>% 
   count() %>% 
-  right_join(bezirke_wien, by=c("Bezirk"="Bezirk_Nr")) %>% 
+  right_join(bezirke_wien) %>% 
   mutate(n=n %>% replace_na(0)) %>% 
+  # print() %>% 
   ggplot(aes(geometry=geometry)) +
     geom_sf(aes(fill = n), color = "white") +
     scale_fill_viridis_c(option = "plasma") +
@@ -203,26 +410,192 @@ krankenhäuser %>%
 
 ```
 
+The red choropleth shows, that the districts Margareten, Neubau and Brigittenau 
+appear not to have any hospitals in them. Alsergrund takes the lead with the most
+hospitals (5). 
 
-```{r}
+```{r Stationierte Ärzte pro Bezirk, include=F}
 
 year = 2024
 krankenhäuser %>% 
   filter(Jahr == year) %>%
-  group_by(Jahr, Bezirk) %>% 
+  group_by(Jahr, Bezirk_Nr) %>% 
   summarise(n = sum(Ärztinnen.und.Ärzte, na.rm=T)) %>% 
-  right_join(bezirke_wien, by=c("Bezirk"="Bezirk_Nr")) %>% 
+  right_join(bezirke_wien) %>% 
   mutate(n=n %>% replace_na(0)) %>% 
-  # print() %>% 
   ggplot(aes(geometry=geometry)) +
     geom_sf(aes(fill = n), color = "white") +
     scale_fill_viridis_c(option = "plasma") +
     labs(
-      fill = ""
       title = paste("Anzahl Stationierte Ärzt:innen pro Wiener Gemeindebezirk", year),
+      fill = ""
          ) +
     theme_minimal() +
-  scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "steelblue4"), 
+  scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "steelblue4", "blue4"), 
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+While those three districts feature no stationary doctors, there is a vast supply 
+of private practice practitioners outside of hospitals. To visualize this, we 
+perform the same aggregation and join as before on the `ärztinnen` data set and 
+create the same type of choropleth with a blue hue. 
+
+
+```{r Ärzte pro Bezirk, fig.width=5}
+year = 2024
+ärztinnen %>% 
+  filter(Jahr == year) %>%
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(n = sum(FachärztInnen, na.rm=T)) %>% 
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  # print() %>%
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Niedergelassene Ärzt:innen pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("lightblue1", "steelblue",  "blue4"),
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+```
+
+This choropleth shows that Döbling, Alsergrund and Innere Stadt, which contained 
+a single hospital in the previous plot, take the lead with over 400 private 
+practice doctors each, whereas only 60 settled in Simmering. 
+
+```{r Apotheken pro Bezirk, include=F}
+year = 2024
+ärztinnen %>% 
+  filter(Jahr == year) %>%
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(n = sum(`Öffentliche.Apotheken`, na.rm=T)) %>% 
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Öffentliche Apotheken pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("azure1", "seagreen"), 
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+\newpage
+
+## Insight 2: Population per hospital
+By joining the `bevölkerung` data set with the `geodata`, we can create another 
+choropleth, visualizing the population for a certain year per district. 
+
+
+```{r Population pro Bezirk, include=FALSE}
+
+year = 2024
+bevölkerung %>% 
+  filter(Jahr == year) %>%
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(n = sum(`Bevölkerung`, na.rm=T)) %>% 
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Bevölkerung pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("bisque1", "sienna"), 
+                       labels = label_comma(),
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+
+While no helpful insight can be gained here yet, we can join the resulting data set 
+with the `krankenhäuser` and `ärztinnen` data sets to find out the number of 
+residents per doctor stationed in a hospital and private practice doctor for 
+each district. This shows a clearer picture of where doctors have a larger 
+pool of possible patients. 
+
+```{r Einwohner pro stationerter Ärztin, fig.width=5}
+# year = 2024
+krankenhäuser %>% 
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(Ärztinnen.und.Ärzte = sum(`Ärztinnen.und.Ärzte`, na.rm=T)) %>% 
+  left_join(bevölkerung) %>% 
+  mutate(n = Bevölkerung / Ärztinnen.und.Ärzte) %>% 
+  filter(Jahr == year) %>%
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>%
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Einwohner pro stationerter Ärztin pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("white", "bisque1", "sienna"), 
+                       labels = label_comma(),
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+```
+
+
+```{r include=FALSE}
+# year = 2024
+krankenhäuser %>% 
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(
+    Ärztinnen.und.Ärzte = sum(`Ärztinnen.und.Ärzte`, na.rm=T),
+    Stationäre.Patientinnen.und.Patienten = sum(`Stationäre.Patientinnen.und.Patienten`, na.rm=T)
+    ) %>% 
+  mutate(n = Stationäre.Patientinnen.und.Patienten / Ärztinnen.und.Ärzte) %>% 
+  filter(Jahr == year) %>%
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>%
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Stationerte Ärzt:innen pro Patient pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "blue4"), 
+                       labels = label_comma(),
                        values = scales::rescale(c(0, 1, 80)),) +
    theme(
       axis.text = element_blank(),
@@ -235,7 +608,192 @@ krankenhäuser %>%
 
 
 
+```{r Bevölkerung pro niedergelassener Ärzt:in, fig.width=5}
+# year = 2024
+ärztinnen %>% 
+  filter(Jahr == year) %>%
+  left_join(bevölkerung, by=c("Bezirk_Nr", "Jahr")) %>% 
+  mutate(n = Bevölkerung / `FachärztInnen`) %>%
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>%
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Bevölkerung pro niedergelassener Fachärzt:innen\npro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("azure1", "lightblue1", "steelblue", "blue4"), 
+                       labels = label_comma(),
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+
+
+```{r Bevölkerung pro Frauenärzt:in, include=FALSE}
+# year = 2024
+ärztinnen %>% 
+  filter(Jahr == year) %>%
+  left_join(bevölkerung, by=c("Bezirk_Nr", "Jahr")) %>% 
+  mutate(n = Bevölkerung / `Frauen.heilkunde`) %>%
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>%
+  ggplot(aes(geometry=geometry)) +
+    geom_sf(aes(fill = n), color = "white") +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = paste("Bevölkerung pro niedergelassener Frauenärzt:innen pro Wiener Gemeindebezirk", year),
+      fill = ""
+         ) +
+    theme_minimal() +
+  scale_fill_gradientn(colors = c("lightblue1", "steelblue", "blue4"), 
+                       labels = label_comma(),
+                       values = scales::rescale(c(0, 1, 80)),) +
+   theme(
+      axis.text = element_blank(),
+      panel.grid = element_blank(),
+      aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+      )
+
+```
+
+```{r Linechart Patienten pro Arzt, include=FALSE}
+
+t <-200
+krankenhäuser %>% 
+  mutate(Patientinnen.pro.Arzt = Stationäre.Patientinnen.und.Patienten / Ärztinnen.und.Ärzte) %>% 
+  group_by(Jahr, Bezirk_Nr) %>% 
+  summarise(n = sum(Patientinnen.pro.Arzt, na.rm=T)) %>% 
+  group_by(Bezirk_Nr) %>% 
+  filter(!any(n < t, na.rm=T)) %>% 
+  left_join(bezirke_wien) %>% 
+  ggplot(aes(x=Jahr, y=n, color=Bezirk_Nr_Name)) +
+    geom_point() +
+    geom_line() +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = "Verlauf von in Krankenanstalten stationierte Patient:innen \npro Ärzt:in pro Wiener Gemeindebezirk",
+      caption = "Nur die Institute mit den höchsten k Werten werden angezeigt.",
+      color = ""
+         ) +
+    theme_minimal() +
+    scale_y_continuous(labels=label_comma()) +
+    # scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "blue4"), 
+    #                      labels = label_comma(),
+    #                      values = scales::rescale(c(0, 1, 80)),) +
+    theme(
+      axis.title = element_blank(),
+      panel.grid = element_blank(),
+      # plot.caption = element_text(hjust = 0, size = 9)
+      # aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+    )
+
+```
+
+```{r Bevölkerung pro Fachärztin, include=FALSE}
+
+t <- 1000
+ärztinnen %>% 
+  left_join(bevölkerung) %>% 
+  mutate(n = Bevölkerung / FachärztInnen) %>%
+  right_join(bezirke_wien) %>% 
+  mutate(n=n %>% replace_na(0)) %>% 
+  group_by(Bezirk_Nr) %>% 
+  filter(!any(n < t, na.rm=T)) %>% 
+  ggplot(aes(x=Jahr, y=n, color=Bezirk_Nr_Name)) +
+    geom_point() +
+    geom_line() +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = "Verlauf von Bevölkerung \npro niedergelassener Fachärzt:in pro Wiener Gemeindebezirk",
+      caption = "Nur die Institute mit den höchsten k Werten werden angezeigt.",
+      color = ""
+         ) +
+    theme_minimal() +
+    scale_y_continuous(labels=label_comma()) +
+    # scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue", "blue4"), 
+    #                      labels = label_comma(),
+    #                      values = scales::rescale(c(0, 1, 80)),) +
+    theme(
+      axis.title = element_blank(),
+      panel.grid = element_blank(),
+      # plot.caption = element_text(hjust = 0, size = 9)
+      # aspect.ratio = .8 # Plot Seitenverhältnisse ändern
+    )
+
+```
+
+\newpage
+
+## Insight 3: Scarcity of medical specialties
+The previous insights focused on all kinds of private practitioners, 
+however, some types of specialties are more common and some more scarce than others. 
+
+
+By grouping the `ärztinnen` data per year and summing the doctor counts, 
+we get the number of specialized practitioners per year and can investigate, 
+which specialists are more scarce than others. 
+By, again, joining it with the `bevölkerung` data, we can get the 
+relative population per specialist for each year. 
+
+```{r Bevölkerung pro Facharzt}
+bevölkerung_gesamt <- bevölkerung %>% 
+  group_by(Jahr) %>% 
+  summarise(Bevölkerung = sum(Bevölkerung, na.rm=T))
+
+ärztinnen %>% 
+  select(-FachärztInnen) %>% 
+  pivot_longer(-c("Bezirk", "Bezirk_Nr", "Jahr"), names_to = "Fachrichtung", values_to = "n") %>% 
+  group_by(Fachrichtung, Jahr) %>% 
+  summarise(n = sum(n, na.rm=T)) %>% 
+  left_join(bevölkerung_gesamt) %>% 
+  mutate(n_rel = Bevölkerung / n) %>% 
+  ggplot(aes(x=Jahr, y=n_rel, color=Fachrichtung)) +
+    geom_point() +
+    geom_line() +
+    scale_fill_viridis_c(option = "plasma") +
+    labs(
+      title = "Verlauf Einwohnerzahl je Ärzt:innen \npro medizinischer Fachrichtung",
+      color = ""
+         ) +
+    theme_minimal() +
+    # ylim(0, 8200) +
+    scale_y_continuous(labels=label_comma()) +
+    theme(
+      axis.title = element_blank(),
+      panel.grid = element_blank(),
+    )
+```
+
+The line plot above shows that general practitioners are by far the most common, 
+followed by dentists and internal specialists. 
+The most scarce are surgeons and dermatologists, followed by orthopedists and 
+obstetricians. Pharmacies are shown up there in the top scarce groups too, 
+though they serve a different purpose altogether. 
 
 
 
 
+
+```{r Top überlastete Krankenhäuser, include=FALSE}
+krankenhäuser %>% 
+  transmute(
+    Bezirk_Nr, Krankenanstalt, Jahr,
+    `Patient:innen pro Ärzt:in` = (Stationäre.Patientinnen.und.Patienten / Ärztinnen.und.Ärzte) %>% round(),
+    `Patient:innen pro Nicht-Ärzt:in` = (Stationäre.Patientinnen.und.Patienten / Personen.in.nicht.ärztlichen.Gesundheitsberufen) %>% round(),
+    `Patient:innen pro Bett` = (Stationäre.Patientinnen.und.Patienten / Systematisierte.Betten) %>% round(),
+    ) %>% 
+  arrange(desc(`Patient:innen pro Ärzt:in`)) %>% 
+  head(20) %>% 
+  knitr::kable()
+  
+```
+
+\newpage

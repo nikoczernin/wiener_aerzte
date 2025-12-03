@@ -1,0 +1,37 @@
+Kraftfahrzeugbestand nach Gemeindebezirken 2021;;;;;;;
+Gemeindebezirk (1);Insgesamt;Kraftfahrzeuge zum Stichtag 31, 12,;;;;;
+;;Pkw;Omnibusse;Lkw;Zugmaschinen (2);"sonstige
+Kraftfahrzeuge (3)";Krafträder (4)
+Wien;913263;725100;4091;78161;4203;6214;95494
+1, Innere Stadt;19461;16206;21;1551;83;241;1359
+2, Leopoldstadt;41478;33450;11;3563;120;352;3982
+3, Landstraße;48146;37258;452;5047;275;730;4384
+4, Wieden;15116;12248;2;1232;59;127;1448
+5, Margareten;20051;15226;5;1782;268;140;2630
+6, Mariahilf;12561;10042;1;897;36;99;1486
+7, Neubau;12543;9862;–;915;45;68;1653
+8, Josefstadt;9303;7538;–;495;23;53;1194
+9, Alsergrund;16940;13737;1;1097;50;84;1971
+10, Favoriten;86055;71131;19;6318;326;391;7870
+11, Simmering;49582;38654;82;4610;315;644;5277
+12, Meidling;42244;34873;3;3050;179;146;3993
+13, Hietzing;28708;23873;3;1149;100;188;3395
+14, Penzing;43054;35207;3;2190;99;255;5300
+15, Rudolfsheim-Fünfhaus;26900;21319;8;2549;81;151;2792
+16, Ottakring;40543;32716;11;2932;101;223;4560
+17, Hernals;22725;18175;2;1428;68;113;2939
+18, Währing;22208;18367;6;918;64;95;2758
+19, Döbling;38033;31379;1;2169;277;179;4028
+20, Brigittenau;29317;24110;492;1783;94;112;2726
+21, Floridsdorf;83988;68376;173;5137;438;404;9460
+22, Donaustadt;106475;85949;10;6950;615;648;12303
+23, Liesing;75169;56897;237;10126;425;604;6880
+Polizei, Justizwache, Fizverwaltung;7111;6162;39;329;27;147;407
+Post;9445;386;37;8290;29;6;697
+Bahn;6107;1959;2472;1654;6;14;2
+Quelle: Statistik Austria – Kfz-Bestand,;;;;;;;
+"(1) Wohnsitz der Besitzerin bzw, des Besitzers, bei Betriebsfahrzeugen Standort des Betriebes, 
+(2) Sattelzugfahrzeuge, Motor- und Transportkarren sowie land- und forstwirtschaftliche Zugmaschinen,
+(3) Selbstfahrende Arbeitsmaschinen (einschließlich sonstige Kfz),
+(4) Motorräder, Klein- und Leichtmotorräder, Motorfahrräder, Motordrei- und -vierräder sowie mehrspurige Leichtkraftfahrzeuge,";;;;;;;
+;;;;;;;

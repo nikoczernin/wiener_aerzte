@@ -1,0 +1,87 @@
+Öffentliche Bildungsausgaben Wiens nach Bildungseinrichtungen seit 2000;;;;;;
+Jahr;Kindergärten *;Allgemeinbildende Pflichtschulen ;Berufsschulen;BMS, BHS **;Fachhochschulen;Ministerium, Verwaltung ***
+;in Mio. Euro;;;;;
+2000 ;239,596;610,45196;54,835051;8,818438;0,745042;7,773157
+2001 ;243,220854;602,535719;53,402096;7,714881;2,526033;7,966165
+2002 ;250,755869;627,395012;50,762405;7,807312;1,387179;7,933238
+2003 ;256,94919;607,85157;51,169604;7,878649;3,387979;8,49771
+2004 ;276,188986;560,219452;50,564676;11,160637;3,27616;8,828056
+2005 ;296,233356;575,711361;52,816169;11,236737;2,733521;8,985354
+2006 ;310,660201;605,497182;57,522954;11,757641;2,80087;9,384603
+2007 ;317,207653;616,199568;61,53022;11,405818;2,695645;9,615444
+2008 ;345,028247;686,640326;63,876838;12,024157;2,669009;13,338666
+2009 ;400,095991;744,40644;67,018902;12,631976;3,895683;12,523985
+2010 ;520,9491;763,466463;69,667788;14,109533;2,668435;12,874145
+2011 ;559,706802;774,836429;69,99806;13,504848;2,980291;14,696403
+2012 ;576,156991;788,850524;69,418564;13,479932;3,344334;13,675362
+2013 ;631,831177;832,871025;71,928053;13,520839;3,106418;13,79573
+2014;672,676971;889,213845;77,886618;14,227498;3,608331;15,100142
+2015;698,87;979,41;74,86;14,37;3,85;15,79
+2016;718,77420881;1057,89227679;73,96427271;14,17407816;3,87721219;14,92879581
+Quelle: Statistik Austria - Bildungsausgabenstatistik.;;;;;;
+* Kindergärten, altersgemischte Einrichtungen, Krippen, Horte.
+** Inkl. Bildungsanstalten für Kindergartenpädagogik, Bildungsanstalten für Sozialpädagogik und sonstige BMS und BHS. 
+*** Verwaltung auf Bundes-, Landes- und Gemeindeebene, inklusive Studienbeihilfen, bildungsrelevante Teile der Familienbeihilfe und Sozialleistungen wie SchülerInnenfreifahrt, sonstige Schulen.;;;;;;
+;;;;;;
+;;;;;;
+;;;;;;
+;;;;;;
+;;;;;;
+;;;;;;
+;;;;;;
+Bildungsausgaben Q;;;;;;
+Werte: Ausgaben (gesamt);;;;;;
+Schicht:;;;;;;
+Felder: Zeit nach Werte und Bildungseinrichtung;;;;;;
+Filter: Regionale Gliederung.(Wien );;;;;;
+;;;;;;
+Werte ;Ausgaben (gesamt) ;;;;;
+Bildungseinrichtung ;Kindergarten <1> ;Allgemeinbildende Pflichtschulen <2> ;Berufsschulen <4> ;Berufsbildende mittlere und höhere Schulen <5> ;Fachhochschulen <7> ;Ministerium, Verwaltung <9> 
+Zeit;;;;;;
+2000 ;239596000;610451960;54835051;8818438;745042;7773157
+2001 ;243220854;602535719;53402096;7714881;2526033;7966165
+2002 ;250755869;627395012;50762405;7807312;1387179;7933238
+2003 ;256949190;607851570;51169604;7878649;3387979;8497710
+2004 ;276188986;560219452;50564676;11160637;3276160;8828056
+2005 ;296233356;575711361;52816169;11236737;2733521;8985354
+2006 ;310660201;605497182;57522954;11757641;2800870;9384603
+2007 ;317207653;616199568;61530220;11405818;2695645;9615444
+2008 ;345028247;686640326;63876838;12024157;2669009;13338666
+2009 ;400095991;744406440;67018902;12631976;3895683;12523985
+2010 ;520949100;763466463;69667788;14109533;2668435;12874145
+2011 ;559706802;774836429;69998060;13504848;2980291;14696403
+2012 ;576156991;788850524;69418564;13479932;3344334;13675362
+2013 ;631831177;832871025;71928053;13520839;3106418;13795730
+2014;672676971;889213845;77886618;14227498;3608331;15100142
+Anmerkungen/Annotations;;;;;;
+Q: STATcube – Statistische Datenbank von STATISTIK AUSTRIA;;;;;;
+Bildungsausgaben:;;;;;;
+;;;;;;
+Gegenstand der Statistik:;;;;;;
+;;;;;;
+Berechnung der öffentlichen Bildungsausgaben.;;;;;;
+;;;;;;
+Rechtsgrundlagen:;;;;;;
+;;;;;;
+Bildungsdokumentationsgesetz, BGBl. I Nr. 12/2002 §9 vom 8. Jänner 2002 und den;;;;;;
+dazugehörigen Verordnungen, BGBl. II Nr. 499/2003 vom 24. Oktober 2003.;;;;;;
+;;;;;;
+Aktualisierung:;;;;;;
+;;;;;;
+aktueller Datenstand: Rechnungsabschlüsse ab dem Rechnungsjahr 2000;;;;;;
+Nächste Aktualisierung: März 2016;;;;;;
+letzte Änderung des Würfels  [06.03.2015];;;;;;
+;;;;;;
+Sonstige Hinweise:;;;;;;
+;;;;;;
+Alle Werte in EURO.;;;;;;
+;;;;;;
+Bearbeitungsnachweis:;;;;;;
+;;;;;;
+Direktion Volkswirtschaft - Bildungsausgabenstatistik;;;;;;
+;;;;;;
+Sabine Martinschitz, Tel. +43 (1) 71128-7727;;;;;;
+sabine.martinschitz@statistik.gv.at;;;;;;
+;;;;;;
+Mag. Natascha Riha, Tel. +43 (1) 71128-7177;;;;;;
+natascha.riha@statistik.gv.at;;;;;;

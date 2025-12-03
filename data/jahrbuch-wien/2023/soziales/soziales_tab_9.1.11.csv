@@ -1,0 +1,32 @@
+Einkommensteuer nach Gemeindebezirken 2020 – Frauen;;;;;;;;;;;;
+Gemeindebezirk;Veranlagungsfälle;Einkünfte;"Zu versteuerndes
+Einkommen";"Festgesetzte
+Einkommensteuer";;;;;;;;
+;;Mio. EUR;;;;;;;;;;
+Wien;49763;2473,45459453;2428,82211305;738,63908049;;;;;;;;
+1. Innere Stadt;1242;92,28368501;90,70533581999999;36,079278439999996;;;;;;;;
+2. Leopoldstadt;2804;130,45883373;128,29604259;37,172404390000004;;;;;;;;
+3. Landstraße;3326;169,26139647;166,42624057;51,567854950000005;;;;;;;;
+4. Wieden;1597;85,28407884;83,70535756;26,444796800000002;;;;;;;;
+5. Margareten;1578;67,14634841;66,10621321;18,199951149999997;;;;;;;;
+6. Mariahilf;1309;62,29272125;61,24903429;17,914714309999997;;;;;;;;
+7. Neubau;1605;79,98452709;78,70996941;23,56061803;;;;;;;;
+8. Josefstadt;1358;90,7694819;89,29489659999999;34,807388859999996;;;;;;;;
+9. Alsergrund;1973;107,95981463;106,27811098000001;33,559119259999996;;;;;;;;
+10. Favoriten;2253;89,70545602;88,01944420999999;22,593534289999997;;;;;;;;
+11. Simmering;1117;42,76004253;42,02697468;10,269013189999999;;;;;;;;
+12. Meidling;1755;71,91969929000001;70,47776087000001;18,23078366;;;;;;;;
+13. Hietzing;2840;167,94164589;164,50530504;54,06400685;;;;;;;;
+14. Penzing;2752;128,09183347;125,40594918000001;35,73477803;;;Ausfüllen mittels statcube (ABO):;;;;;
+15. Rudolfsheim-Fünfhaus;1533;59,23281614;58,282524710000004;14,51314929;;;1;https://www.statistik.at/web_de/statistiken/wirtschaft/oeffentliche_fizen_und_steuern/steuerstatistiken/einkommensteuerstatistik/index.html;;;;
+16. Ottakring;2349;102,95028593;100,93895012;27,52678491;;;2;Im statcube: Werte -> Fakten ->;;;;
+17. Hernals;1762;83,30787710999999;81,88292946;23,5877238;;;;Anzahl Veranlagungsfälle;;;;
+18. Währing;2873;168,74963501;165,49408401;56,231989520000006;;;;Gesamtbetrag der Einkünfte;;;;
+19. Döbling;3453;217,87811856;213,53598846;73,25128156999999;;;;Zu Versteuerndes Einkommen;;;;
+20. Brigittenau;1197;49,14304838;48,346033729999995;12,63389136;;;;Festgesetzte Einkommensteuer;;;;
+21. Floridsdorf;2590;114,99404895;113,05586468000001;30,454935120000002;;;3;Im statcube: Klassifikationen -> Steuer- /Nullfall ->;;;;
+22. Donaustadt;3591;155,48732200999999;152,7770653;40,61026261;;;;Steuerfall (Filter);;;;
+23. Liesing;2906;135,85187790999998;133,30203756999998;39,6308201;;;;;;;4,0;Geschlecht -> Frauen
+Quelle: Statistik Austria – Einkommensteuerstatistik.;;;;;;;;;;;;
+Anmerkung: Nur Steuerfälle erfasst. Rundungsdifferenzen nicht ausgeglichen.;;;;;;;;;;;;
+;;;;;;;;;;;;

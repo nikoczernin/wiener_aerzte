@@ -1,0 +1,18 @@
+Lufttemperatur und Luftfeuchtigkeit in Wien nach Monaten 2023;;;;;;;
+Monat;Mittlere Temperatur;Abweichung vom NW (1);Höchste Temperatur;;Tiefste Temperatur;;Mittlere relative Feuchtigkeit
+;°C;;°C;Tag;°C;Tag;%
+2023;12,533333333333333;2,0833333333333335;36,2;25. 8.;-9;4. 12.;68,66666666666667
+Jänner;4,1;3,8;13,3;5;-3,3;30;79
+Februar;4,3;2,8;17;18;-7,1;8;70
+März;7,9;2,2;21,7;23;-1,8;1;60
+April;9,1;-1,6;22,6;23;-1,6;5;69
+Mai;15,3;-0,4;27,2;23;5,9;1;65
+Juni;20;1,3;33;21;9,9;13;62
+Juli;23,5;2,7;35,3;10;13,3;27;55
+August;21,5;1,3;36,2;25;10,8;11;67
+September;19,4;4;30,8;12;11,4;29;68
+Oktober;14,2;4;27,3;13;2,1;17;74
+November;6,8;1,7;17,6;1;-2,6;30;77
+Dezember;4,3;3,2;15,4;29;-9;4;78
+Quelle: GeoSphere Austria.;;;;;;;
+(1) NW = Normalwert_ Abweichung vom langjährigen Mittelwert der Jahre 1981–2010.;;;;;;;

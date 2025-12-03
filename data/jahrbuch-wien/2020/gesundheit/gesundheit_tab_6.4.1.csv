@@ -1,0 +1,24 @@
+P0018;;;;;;;;;;;;;;;;;;;vormals E0018
+Todesursachen in Wien nach ICD-10-Klassifikation seit 2002;;;;;;;;;;;;;;;;;;;
+Todesursache nach ICD-10-Klassifikation;Berichtsjahr *;;;;;;;;;;;;;;;;;;
+;2002;2003;2004;2005;2006;2007;2008;2009;2010;2011;2012;2013;2014;2015;2016;2017;2018;2019;
+Wien;16916;16980;15983;16027;15796;15825;15702;16332;16287;15918;16404;16332;16014;16526;16031;16424;16887;16150;
+InfektiÃƒÂ¶se und parasitÃƒÂ¤re Krankheiten (A00-B99);203;221;172;200;145;173;200;195;199;192;191;209;200;192;187;185;240;207;
+BÃƒÂ¶sartige, gutartige und andere Neubildungen (C00-D48);4207;4373;4316;4258;4236;4055;4358;4257;4342;4384;4388;4273;4414;4337;4198;4223;4287;4163;
+Krankheiten des Blutes und des Immunsystems (D50-D89);17;20;23;16;14;18;28;28;33;28;38;34;32;16;36;42;45;60;
+Endokrine, ErnÃƒÂ¤hrungs- und Stoffwechselkrankheiten (E00-E90);447;693;769;802;770;802;849;794;759;707;708;733;765;818;898;837;787;718;
+Psychische Krankheiten und VerhaltensstÃƒÂ¶rungen (F00-F99);83;195;157;177;181;211;258;252;214;219;264;287;283;276;335;563;663;521;
+Krankheiten des Nervensystems, des Auges und des Ohres (G00-H95);425;453;268;292;332;377;384;371;370;382;458;416;388;347;412;533;585;543;
+Krankheiten des Kreislaufsystems (I00-I99);8605;7931;7327;7433;7269;7287;7016;7189;7246;6959;7219;7223;6889;7287;6673;6489;6342;5980;
+Krankheiten des Atmungsssystems (J00-J99);787;945;842;790;824;866;754;825;791;775;729;751;728;785;816;1046;1237;1240;
+Krankheiten des Verdauungssystems (K00-K93);867;890;876;795;776;727;660;769;746;691;699;713;612;637;606;615;636;658;
+Krankheiten der Haut und der Unterhaut (L00-L99);11;10;9;7;8;14;16;12;14;13;15;10;6;9;17;15;21;18;
+Krankheiten des Muskel-Skelett-Systems und des Bindegewebes (M00-M99);36;34;27;67;54;45;48;37;44;37;32;31;32;37;41;58;73;45;
+Krankheiten des Urogenitalsystems (N00-N99);224;271;291;209;223;213;207;236;247;232;251;235;237;264;308;294;306;386;
+Schwangerschaft, Geburt und Wochenbett (O00-O99);Ã¢â‚¬â€œ;1;1;2;Ã¢â‚¬â€œ;Ã¢â‚¬â€œ;Ã¢â‚¬â€œ;Ã¢â‚¬â€œ;Ã¢â‚¬â€œ;2;0;Ã¢â‚¬â€œ;3;2;2;1;1;1;
+Perinatale Affektionen (P00-P96);58;78;67;70;54;54;62;59;65;56;46;47;52;46;53;48;44;62;
+Angeborene Anomalien (Q00-Q99);44;36;39;43;51;45;47;57;60;50;51;58;63;59;55;52;52;44;
+Symptome und abnorme klinische und Laborbefunde (R00-R99) *;82;38;40;63;70;109;112;488;484;506;553;572;573;652;686;675;725;708;
+Verletzungen, Vergiftungen, Folgen ÃƒÂ¤uÃƒÅ¸erer Ursachen (S00-T98);820;791;759;803;789;829;703;763;673;685;762;740;737;762;708;748;843;796;
+Quelle: Statistik Austria Ã¢â‚¬â€œ Todesursachenstatistik, Stadt Wien Wirtschaft, Arbeit und Statistik.;;;;;;;;;;;;;;;;;;;
+* Ab 2009: Inklusive AuslandssterbefÃƒÂ¤lle.;;;;;;;;;;;;;;;;;;;
