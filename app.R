@@ -10,6 +10,13 @@ library(factoextra)
 
 # load the dataframes
 krankenhäuser <- readxl::read_xlsx("data/krankenhäuser.xslx") %>% 
+  rename(
+    doctors = Ärztinnen.und.Ärzte,
+    beds = Systematisierte.Betten,
+    staff = Personen.in.nicht.ärztlichen.Gesundheitsberufen,
+    patients = Stationäre.Patientinnen.und.Patienten,
+    hospital = Krankenanstalt
+  ) %>% 
   mutate(across(everything(), ~ replace(., is.na(.), 0)))
 bezirke_wien <- st_read("data/geojson/bezirke_95_geo.json") %>% 
   filter(grepl("^Wien.*,", name)) %>% 
@@ -24,8 +31,8 @@ bezirke_wien %>% writexl::write_xlsx("data/bezirke_wien.xslx")
 
 krankenhäuser <- krankenhäuser %>% 
   mutate(
-    patienten_pro_arzt = Stationäre.Patientinnen.und.Patienten / Ärztinnen.und.Ärzte,
-    patienten_pro_bett = Stationäre.Patientinnen.und.Patienten / Systematisierte.Betten,
+    patienten_pro_arzt = patients / doctors,
+    patienten_pro_bett = patients / beds,
   ) %>% 
   right_join(bezirke_wien) %>% 
   mutate(across(everything(), ~ replace(., is.na(.), 0)))
@@ -74,17 +81,17 @@ ui <- fluidPage(
                  ),
                  
                  # Picker 2: Hospital filter
-                 # hospital_filter_options <- krankenhäuser$Krankenanstalt
+                 # hospital_filter_options <- krankenhäuser$hospital
                  pickerInput(
                    inputId = "hospital_selection",
                    label = "Hospital filter",
-                   choices = split(krankenhäuser$Krankenanstalt, krankenhäuser$Bezirk_Nr_Name),
+                   choices = split(krankenhäuser$hospital, krankenhäuser$Bezirk_Nr_Name),
                    multiple = TRUE,
                    options = list(
                      `actions-box` = TRUE, 
                      `live-search` = TRUE
                    ),
-                   selected = krankenhäuser$Krankenanstalt
+                   selected = krankenhäuser$hospital
                  ),
         ),
       ),
@@ -99,7 +106,7 @@ server <- function(input, output, session) {
     req(input$district_selection)
     krankenhäuser %>% 
       # apply filters
-      filter(Krankenanstalt %in% input$hospital_selection) %>% 
+      filter(hospital %in% input$hospital_selection) %>% 
       filter(Bezirk_Nr_Name %in% input$district_selection)
   })
 
@@ -107,9 +114,9 @@ server <- function(input, output, session) {
     req(df_filtered())
     # perform the linear regression
     df_filtered() %>% 
-      lm(Stationäre.Patientinnen.und.Patienten ~ 
-           Systematisierte.Betten + Ärztinnen.und.Ärzte + 
-           Personen.in.nicht.ärztlichen.Gesundheitsberufen, data = .)
+      lm(patients ~ 
+           beds + doctors + 
+           staff, data = .)
   })
     
 
@@ -131,8 +138,8 @@ server <- function(input, output, session) {
   # Example plots
   output$scatter_ärzte <- renderPlot({
     df() %>% 
-      ggplot(aes(x = Ärztinnen.und.Ärzte, 
-                 y = Stationäre.Patientinnen.und.Patienten)) +
+      ggplot(aes(x = doctors, 
+                 y = patients)) +
       geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
                 vjust = 0, hjust = 0, size = text_size, key_glyph = "point" 
       ) +
@@ -155,8 +162,8 @@ server <- function(input, output, session) {
   output$scatter_betten <- renderPlot({
     df() %>% 
       left_join(bevölkerung) %>% 
-      ggplot(aes(x = Systematisierte.Betten, 
-                 y = Stationäre.Patientinnen.und.Patienten)) +
+      ggplot(aes(x = beds, 
+                 y = patients)) +
       geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
                 vjust = 0, hjust = 0, size = text_size, key_glyph = "point" 
       ) +
@@ -179,8 +186,8 @@ server <- function(input, output, session) {
   output$scatter_staff <- renderPlot({
     df() %>% 
       left_join(bevölkerung) %>% 
-      ggplot(aes(x = Personen.in.nicht.ärztlichen.Gesundheitsberufen, 
-                 y = Stationäre.Patientinnen.und.Patienten)) +
+      ggplot(aes(x = staff, 
+                 y = patients)) +
       geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
                 vjust = 0, hjust = 0, size = text_size, key_glyph = "point" 
       ) +
@@ -205,7 +212,7 @@ server <- function(input, output, session) {
     req(input$district_selection)
     krankenhäuser %>% 
       group_by(Bezirk_Nr, geometry, iso, Bezirk_Nr_Name) %>% 
-      summarise(n = sum(Stationäre.Patientinnen.und.Patienten)) %>% 
+      summarise(n = sum(patients)) %>% 
       mutate(n = ifelse(Bezirk_Nr_Name %in% input$district_selection, n, 0)) %>% 
       ggplot(aes(geometry=geometry)) +
         geom_sf(aes(fill = n), color = "white") +
@@ -215,8 +222,11 @@ server <- function(input, output, session) {
           fill = ""
         ) +
         theme_minimal() +
-        scale_fill_gradientn(colors = c("white", "lightblue1", "steelblue",  "blue4"),
-                             values = scales::rescale(c(0, 1, 80)),) +
+        scale_fill_gradientn(
+            # colors = c("white", "lightblue1", "steelblue",  "blue4"),
+            colors = c("white", "palegreen", "springgreen4"),
+            values = scales::rescale(c(0, 1, 80)),
+          ) +
         theme(
           axis.text = element_blank(),
           plot.title.position = "plot",
