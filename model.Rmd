@@ -1,0 +1,197 @@
+---
+title: "Model"
+output: html_notebook
+---
+
+```{r}
+suppressPackageStartupMessages({
+
+library(tidyverse)
+library(janitor)
+library(sf)
+library(scales)
+library(FactoMineR) 
+library(factoextra)
+
+  })
+
+```
+
+```{r}
+bevölkerung <- readxl::read_xlsx("data/bevölkerung.xslx")
+krankenhäuser <- readxl::read_xlsx("data/krankenhäuser.xslx") %>% 
+  mutate(across(everything(), ~ replace(., is.na(.), 0)))
+ärztinnen <- readxl::read_xlsx("data/ärztinnen.xslx")
+bezirke_wien <- readxl::read_xlsx("data/bezirke_wien.xslx")
+```
+# Resources vs population needs
+how are hospital resources allocated proportionally to district population
+
+```{r}
+krankenhäuser_auslastung <- krankenhäuser %>% 
+  filter(Jahr == 2024) %>% 
+  group_by(Bezirk_Nr) %>% 
+  summarise(
+    Systematisierte.Betten = sum(Systematisierte.Betten, na.rm=T),
+    Ärztinnen.und.Ärzte = sum(Ärztinnen.und.Ärzte, na.rm=T),
+    Stationäre.Patientinnen.und.Patienten = sum(Stationäre.Patientinnen.und.Patienten, na.rm=T),
+  ) %>% 
+  left_join(bevölkerung %>% filter(Jahr == 2024)) %>% 
+  print()
+
+model <- krankenhäuser_auslastung %>% lm(Systematisierte.Betten ~ Bevölkerung, data=.)
+model %>% summary()
+krankenhäuser_auslastung$residuals <- residuals(model)
+krankenhäuser_auslastung$anomaly <- ifelse(
+  abs(krankenhäuser_auslastung$residuals) > sd(krankenhäuser_auslastung$residuals)*1.5, 
+  "Anomaly", "Normal")
+
+krankenhäuser_auslastung %>% 
+  # filter(anomaly=="Normal") %>% 
+ggplot(aes(x = Bevölkerung, y = Systematisierte.Betten)) +
+  geom_point(size = 3, aes(color = anomaly)) +
+  geom_smooth(method = "lm", se = FALSE, color="gray")+
+  scale_color_manual(values = c("Normal" = "steelblue", "Anomaly" = "red")) +
+  labs(
+    title = "Hospital Beds vs. Population",
+    subtitle = "Regression with anomaly detection",
+    x = "Population",
+    y = "Number of Beds"
+  ) +
+  theme_minimal()
+```
+
+
+# Clustering districts
+```{r}
+set.seed(123)
+
+df_cluster <- ärztinnen %>% 
+  filter(Jahr == 2024) %>% 
+  select(-FachärztInnen) %>% 
+  right_join(bevölkerung %>% filter(Jahr == 2024) %>% select(-Jahr)) %>% 
+  left_join(
+    krankenhäuser %>% filter(Jahr == 2024) %>% group_by(Bezirk_Nr) %>%   summarise(across(where(is.numeric), sum, na.rm = TRUE)) %>% select(-Jahr)
+    ) %>% 
+  mutate(across(everything(), ~ replace(., is.na(.), 0))) %>% 
+  select( -Bezirk, -Bezirk_Nr, -Jahr) %>%
+  print()
+
+df_scaled <- scale(df_cluster)
+km <- kmeans(df_scaled, centers = 3)
+df_cluster$cluster <- factor(km$cluster)
+pca <- PCA(df_scaled, graph = FALSE)
+fviz_pca_ind(
+  pca,
+  geom.ind = "point",
+  col.ind = df_cluster$cluster,
+  palette = "Dark2",
+  addEllipses = TRUE,
+  title = "District Clusters Based on Healthcare Profiles"
+)
+```
+
+
+
+
+# Hospital capacity
+
+```{r fig.width=9}
+krankenhäuser <- krankenhäuser %>% 
+  mutate(
+    patienten_pro_arzt = Stationäre.Patientinnen.und.Patienten / Ärztinnen.und.Ärzte,
+    patienten_pro_bett = Stationäre.Patientinnen.und.Patienten / Systematisierte.Betten,
+  )
+
+lm_capacity <- krankenhäuser %>% lm(Stationäre.Patientinnen.und.Patienten ~ Systematisierte.Betten + Ärztinnen.und.Ärzte + Personen.in.nicht.ärztlichen.Gesundheitsberufen, data = .)
+lm_capacity %>% summary()
+
+krankenhäuser$residuals <- residuals(lm_capacity)
+krankenhäuser$efficiency_flag <- ifelse(krankenhäuser$residuals > sd(krankenhäuser$residuals)*1.5, 
+                                        "Overloaded", "Normal")
+```
+
+
+```{r fig.width=9}
+krankenhäuser %>% 
+  ggplot(aes(x = Ärztinnen.und.Ärzte, 
+             y = Stationäre.Patientinnen.und.Patienten)) +
+  # geom_point(size = 3, aes(color = efficiency_flag)) +
+  geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
+            vjust = 0, hjust = 0, size = 2.5, 
+            key_glyph = "point" 
+            ) +
+  geom_smooth(method = "lm", se = FALSE, color="grey") +
+  scale_color_manual(values = c("Normal" = "steelblue", "Overloaded" = "red")) +
+  labs(
+    title = "Hospital Workload Regression",
+    x = "Number of doctors",
+    y = "Number of patients",
+    color = "Workload status"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  theme(
+    panel.grid = element_blank()
+  )
+
+
+
+
+krankenhäuser %>% 
+  left_join(bevölkerung) %>% 
+  ggplot(aes(x = Systematisierte.Betten, 
+             y = Stationäre.Patientinnen.und.Patienten)) +
+  # geom_point(size = 3, aes(color = efficiency_flag)) +
+  geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
+            vjust = 0, hjust = 0, size = 2.5, 
+            key_glyph = "point" 
+            ) +
+  geom_smooth(method = "lm", se = FALSE, color="grey") +
+  scale_color_manual(values = c("Normal" = "steelblue", "Overloaded" = "red")) +
+  labs(
+    title = "Hospital Workload Regression",
+    x = "Number of available beds",
+    y = "Number of patients",
+    color = "Workload status"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  theme(
+    panel.grid = element_blank()
+  )
+
+
+
+
+krankenhäuser %>% 
+  left_join(bevölkerung) %>% 
+  ggplot(aes(x = Personen.in.nicht.ärztlichen.Gesundheitsberufen, 
+             y = Stationäre.Patientinnen.und.Patienten)) +
+  # geom_point(size = 3, aes(color = efficiency_flag)) +
+  geom_text(aes(label=Bezirk_Nr, color = efficiency_flag), 
+            vjust = 0, hjust = 0, size = 2.5, 
+            key_glyph = "point" 
+            ) +
+  geom_smooth(method = "lm", se = FALSE, color="grey") +
+  scale_color_manual(values = c("Normal" = "steelblue", "Overloaded" = "red")) +
+  labs(
+    title = "Hospital Workload Regression",
+    x = "Number of general staff",
+    y = "Number of patients",
+    color = "Workload status"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ".", decimal.mark = ",")) +
+  theme(
+    panel.grid = element_blank()
+  )
+
+
+
+
+```
+

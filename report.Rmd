@@ -57,6 +57,7 @@ bevölkerung <- paste0("data/jahrbuch-wien/", year, "/bevoelkerung/") %>%
   print()
 
 # knitr::knit_exit()
+bevölkerung %>% writexl::write_xlsx("data/bevölkerung.xslx")
 
 ```
 
@@ -184,6 +185,8 @@ krankenhäuser$Personen.in.nicht.ärztlichen.Gesundheitsberufen <- as.numeric(gs
 krankenhäuser$Stationäre.Patientinnen.und.Patienten <- as.numeric(gsub("\\D", "", krankenhäuser$Stationäre.Patientinnen.und.Patienten))
 krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen <- as.numeric(gsub("\\D", "", krankenhäuser$Durschnittliche.Belagsdauer.in.Tagen))
 krankenhäuser %>% arrange(Jahr, Bezirk_Nr)
+
+krankenhäuser %>% writexl::write_xlsx("data/krankenhäuser.xslx")
 ```
 
 ## Doctors
@@ -309,7 +312,7 @@ year <- 2024
   bind_rows(ärztinnen)
 
 ärztinnen 
-
+ärztinnen %>% writexl::write_xlsx("data/ärztinnen.xslx")
 ```
 
 
@@ -331,6 +334,7 @@ bezirke_wien <- st_read("data/geojson/bezirke_95_geo.json") %>%
   ) %>% 
   print()
 
+bezirke_wien %>% writexl::write_xlsx("data/bezirke_wien.xslx")
 ```
 
 
@@ -338,7 +342,7 @@ bezirke_wien <- st_read("data/geojson/bezirke_95_geo.json") %>%
 
 # Exploratory Analysis
 
-```{r, fig.width=10, fig.height=12, include=FALSE}
+```{r, fig.width=10, fig.height=12, include=TRUE}
 bevölkerung %>% 
   filter(Jahr > 2019) %>% 
   left_join(bezirke_wien) %>%
@@ -510,7 +514,7 @@ By joining the `bevölkerung` data set with the `geodata`, we can create another
 choropleth, visualizing the population for a certain year per district. 
 
 
-```{r Population pro Bezirk, include=FALSE}
+```{r Population pro Bezirk, include=TRUE}
 
 year = 2024
 bevölkerung %>% 
@@ -574,7 +578,7 @@ krankenhäuser %>%
 ```
 
 
-```{r include=FALSE}
+```{r include=TRUE}
 # year = 2024
 krankenhäuser %>% 
   group_by(Jahr, Bezirk_Nr) %>% 
@@ -637,7 +641,7 @@ krankenhäuser %>%
 
 
 
-```{r Bevölkerung pro Frauenärzt:in, include=FALSE}
+```{r Bevölkerung pro Frauenärzt:in, include=TRUE}
 # year = 2024
 ärztinnen %>% 
   filter(Jahr == year) %>%
@@ -664,7 +668,7 @@ krankenhäuser %>%
 
 ```
 
-```{r Linechart Patienten pro Arzt, include=FALSE}
+```{r Linechart Patienten pro Arzt, include=TRUE}
 
 t <-200
 krankenhäuser %>% 
@@ -697,7 +701,7 @@ krankenhäuser %>%
 
 ```
 
-```{r Bevölkerung pro Fachärztin, include=FALSE}
+```{r Bevölkerung pro Fachärztin, include=TRUE}
 
 t <- 1000
 ärztinnen %>% 
@@ -782,7 +786,7 @@ though they serve a different purpose altogether.
 
 
 
-```{r Top überlastete Krankenhäuser, include=FALSE}
+```{r Top überlastete Krankenhäuser, include=TRUE}
 krankenhäuser %>% 
   transmute(
     Bezirk_Nr, Krankenanstalt, Jahr,
